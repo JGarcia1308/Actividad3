@@ -11,7 +11,8 @@ class SalesByStoreController extends Controller
      */
     public function index()
     {
-        return SalesByStoreModel::all();
+        $stores = SalesByStoreModel::all();
+        return view('sales.store', compact('stores'))->render();
     }
 
     /**

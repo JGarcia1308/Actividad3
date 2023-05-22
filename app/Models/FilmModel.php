@@ -10,7 +10,7 @@ class FilmModel extends Model
     use HasFactory;
 
     protected $table = 'film_list';
-    protected $fid = 'FID';
+    protected $primaryKey = 'FID';
     protected $title = 'title';
     protected $description = 'description';
     protected $category = 'category';

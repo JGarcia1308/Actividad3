@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\StaffModel;
+use App\Models\NewStaffModel;
 
 class StaffController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Illuminate\Database\Eloquent\Collection
+    public function index()
     {
-        return StaffModel::all();
+        $staff = StaffModel::all();
+        return view('staff.index', compact('staff'))->render();
     }
 
     /**
@@ -20,7 +22,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        //
+        return view('staff.create');
     }
 
     /**
@@ -28,7 +30,19 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $staff = new NewStaffModel();
+
+        $staff->first_name = $request->first_name;
+        $staff->last_name = $request->last_name;
+        $staff->address_id = $request->address_id;
+        $staff->email = $request->email;
+        $staff->store_id = $request->store_id;
+        $staff->active = $request->active;
+        $staff->username = $request->username;
+        $staff->password = $request->password;
+
+        $staff->save();
+        return redirect('/staff');
     }
 
     /**
@@ -36,7 +50,8 @@ class StaffController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $staff = StaffModel::find($id);
+        return view('staff.show', compact('staff'))->render();
     }
 
     /**

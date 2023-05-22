@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CustomerModel;
+use App\Models\NewCustomerModel;
+use App\Models\StoreModel;
 class CustomerController extends Controller
 {
     /**
@@ -11,7 +13,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return CustomerModel::all();
+        $customers = CustomerModel::all();
+        return view("customers.index",compact('customers'))-> render();
     }
 
     /**
@@ -20,6 +23,8 @@ class CustomerController extends Controller
     public function create()
     {
         //
+        $stores = StoreModel::all();
+        return view('customers.create' , compact('stores'));
     }
 
     /**
@@ -27,15 +32,24 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $customer = new NewCustomerModel();
+        $customer->store_id = $request->store;
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
+        $customer->email = $request->email;
+        $customer->address_id = $request->address_id;
+        $customer->active = $request->active;
 
+        $customer->save();
+        return redirect('/customer');
+    }
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $customer = CustomerModel::find($id);
+        return view('customers.show', compact('customer'))->render();
     }
 
     /**

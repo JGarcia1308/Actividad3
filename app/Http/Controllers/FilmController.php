@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FilmModel;
+use App\Models\NewFilmModel;
 class FilmController extends Controller
 {
     /**
@@ -11,7 +12,8 @@ class FilmController extends Controller
      */
     public function index()
     {
-        return FilmModel::all();
+        $films = FilmModel::all();
+        return view('films.index', compact('films'))->render();
     }
 
     /**
@@ -19,7 +21,7 @@ class FilmController extends Controller
      */
     public function create()
     {
-        //
+        return view('films.create');
     }
 
     /**
@@ -27,7 +29,17 @@ class FilmController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $film = new NewFilmModel();
+        $film->title = $request->title;
+        $film->language_id = $request->language_id;
+        $film->original_language_id = $request->original_language_id;
+        $film->description = $request->description;
+        $film->release_year = $request->release_year;
+        $film->length = $request->length;
+        $film->special_features = $request->special_features;
+
+        $film->save();
+        return redirect('/film');
     }
 
     /**
@@ -35,7 +47,8 @@ class FilmController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $film = FilmModel::find($id);
+        return view('films.show', compact('film'))->render();
     }
 
     /**

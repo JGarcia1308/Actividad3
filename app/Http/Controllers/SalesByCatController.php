@@ -11,7 +11,8 @@ class SalesByCatController extends Controller
      */
     public function index()
     {
-        return SalesByCatModel::all();
+        $categories = SalesByCatModel::all();
+        return view('sales.cat', compact('categories'))->render();
     }
 
     /**
