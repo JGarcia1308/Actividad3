@@ -12,7 +12,7 @@ class FilmController extends Controller
      */
     public function index()
     {
-        $films = FilmModel::all();
+        $films = FilmModel::orderBy('FID')->paginate(25);
         return view('films.index', compact('films'))->render();
     }
 
@@ -56,15 +56,24 @@ class FilmController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $film = NewFilmModel::find($id);
+        return view('films.edit', compact('film'))->render();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $film = NewFilmModel::find($request->film_id);
+
+        $film->title=$request->title;
+        $film->description=$request->description;
+        $film->release_year=$request->release_year;
+        $film->length=$request->length;
+
+        $film->save();
+        return redirect('/film');
     }
 
     /**
@@ -72,6 +81,8 @@ class FilmController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $film = NewFilmModel::find($id);
+        $film->destroy($id);
+        return redirect('/film');
     }
 }

@@ -13,7 +13,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        $staff = StaffModel::all();
+        $staff = StaffModel::orderBy('ID')->paginate(25);
         return view('staff.index', compact('staff'))->render();
     }
 
@@ -59,15 +59,24 @@ class StaffController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $staff = NewStaffModel::find($id);
+        return view('staff.edit', compact('staff'))->render();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $staff = NewStaffModel::find($request->staff_id);
+
+        $staff->first_name = $request->first_name;
+        $staff->last_name = $request->last_name;
+        $staff->email = $request->email;
+        $staff->password = $request->password;
+
+        $staff->save();
+        return redirect('/staff');
     }
 
     /**
@@ -75,6 +84,8 @@ class StaffController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $staff = NewStaffModel::find($id);
+        $staff->destroy($id);
+        return redirect('/staff');
     }
 }

@@ -13,6 +13,7 @@ class NewStaffModel extends Model
     use HasFactory;
 
     protected $table = 'staff';
+    protected $primaryKey = 'staff_id';
     protected $first_name = 'first_name';
     protected $last_name = 'last_name';
     protected $address_id = 'address_id';

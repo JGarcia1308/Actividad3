@@ -12,6 +12,7 @@ class NewCustomerModel extends Model
 
     use HasFactory;
     protected $table = 'customer';
+    protected $primaryKey = 'customer_id';
     protected $store_id = 'store_id';
     protected $first_name = 'first_name';
     protected $last_name = 'last_name';

@@ -16,7 +16,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/film">
-                        <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                        <span class="align-text-bottom"><i class="fa fa-film"></i></span>
                         Peliculas
                     </a>
                 </li>

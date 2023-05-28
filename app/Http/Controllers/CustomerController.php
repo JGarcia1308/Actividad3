@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CustomerModel;
 use App\Models\NewCustomerModel;
 use App\Models\StoreModel;
+use Illuminate\Support\Facades\DB;
 class CustomerController extends Controller
 {
     /**
@@ -13,7 +14,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = CustomerModel::all();
+        $customers = CustomerModel::orderBy('ID')->paginate(25);
         return view("customers.index",compact('customers'))-> render();
     }
 
@@ -57,15 +58,25 @@ class CustomerController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $customer = NewCustomerModel::find($id);
+        return view('customers.edit', compact('customer'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $customer = NewCustomerModel::find($request->customer_id);
+
+
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
+        $customer->email = $request->email;
+        $customer->address_id = $request->address_id;
+
+        $customer->save();
+        return redirect('/customer');
     }
 
     /**
@@ -73,6 +84,9 @@ class CustomerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $customer = NewCustomerModel::find($id);
+
+        $customer->destroy($id);
+        return redirect('/customer');
     }
 }

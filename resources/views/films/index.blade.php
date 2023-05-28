@@ -44,8 +44,9 @@
                             <td>
                                 <div>
                                     <a href="/film/{{$film->FID}}" class="btn btn-sm btn-outline-info">Ver</a>
-                                    <a href="#" class="btn btn-sm btn-outline-warning">Editar</a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger">Borrar</a>
+                                    <a href="/film/{{$film->FID}}/edit" class="btn btn-sm btn-outline-warning">Editar</a>
+                                    <button data-bs-toggle="modal" data-bs-target="#staticBackdrop-{{ $film->FID }}"
+                                        class="btn btn-sm btn-outline-danger">Eliminar</button>
                                 </div>
                             </td>
                         </tr>
@@ -53,5 +54,38 @@
                 </tbody>
             </table>
         </div>
+        @if ($films->links()->paginator->hasPages())
+        <div class="row">
+            <div class="col-6 col-md-4"></div>
+            <div class="col-6 col-md-4">{{ $films->links() }}</div>
+            <div class="col-6 col-md-4"></div>
+        </div>
+        @endif
     </main>
 @endsection
+@foreach ($films as $film)
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop-{{ $film->FID }}" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-bg-danger">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Pelicula - {{ $film->FID }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <b>Pelicula a Eliminar: {{$film->title}}</b>
+                </div>
+                <div class="modal-footer">
+                    <form action="/film/{{ $film->FID }}" method="post">
+                        @method('delete')
+                        {{ csrf_field() }}
+                        <button type="button" class="btn btn-sm btn-primary"
+                            data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach

@@ -12,6 +12,7 @@ class NewFilmModel extends Model
 
     use HasFactory;
     protected $table = 'film';
+    protected $primaryKey = 'film_id';
     protected $title = 'title';
     protected $description = 'description';
     protected $release_year = 'release_year';
